@@ -1,25 +1,65 @@
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar bg-blue-dark">
   <div class="container"><a class="navbar-brand" href="#">MyDrive</a></div>
 </nav>
 <div class="local-path">
-  <div class="container"><span>/</span></div>
+  <div class="container">
+    <span *ngFor="let route of absolutePath; index as i">
+      <span *ngIf="route == '/'; else normalRoute" class="slash">
+        {{ route }}
+      </span>
+      <ng-template #normalRoute>
+        <span (click)="router(i)" class="route"><a>{{ route }}</a></span>
+      </ng-template>
+    </span>
+  </div>
 </div>
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-2 dir">
-      Carptea
+    <div class="col-md-2 dir" *ngFor="let dir of dirs">
+      <div class="main-content">
+        <div class="filenames" (click)="onRefreshContent(dir, false)">
+          <p class="filename">{{ dir }}</p>
+        </div>
+        <div class="options">
+          <div ngbDropdown class="d-inline-block main-nav-options">
+            <button class="btn" id="dropdownBasic1" ngbDropdownToggle>
+              <div>
+                <div class="one"></div>
+                <div class="dos"></div>
+                <div class="tres"></div>
+              </div>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem>Action - 1</button>
+              <button ngbDropdownItem>Another Action</button>
+              <button ngbDropdownItem>Something else is here</button>
+            </div>
+          </div>          
+        </div>
+      </div>
     </div>
-    <div class="col-md-2 dir">
-      Carptea
-    </div>
-    <div class="col-md-2 dir">
-      Carptea
-    </div>
-    <div class="col-md-2 file">
-      file
-    </div>
-    <div class="col-md-2 file">
-      file
+    <div class="col-md-2 file" *ngFor="let file of files">
+      <div class="main-content">
+        <div class="filenames">
+          <p class="filename">{{ file }}</p>
+        </div>
+        <div class="options">
+          <div ngbDropdown class="d-inline-block main-nav-options">
+            <button class="btn" id="dropdownBasic1" ngbDropdownToggle>
+              <div>
+                <div class="one"></div>
+                <div class="dos"></div>
+                <div class="tres"></div>
+              </div>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem>Action - 1</button>
+              <button ngbDropdownItem>Another Action</button>
+              <button ngbDropdownItem>Something else is here</button>
+            </div>
+          </div>          
+        </div>
+      </div>
     </div>
   </div>
 </div>
