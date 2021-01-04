@@ -142,6 +142,7 @@
 }
 /* Styles bootstrap --end-- */
 
+/* Menu options elements */
 .main-nav-options {
     width: 100%;
     height: 100%;
@@ -157,4 +158,34 @@
     background: black;
     margin-bottom: 3px;
     border-radius: 100%;
+}
+
+.edit {
+    color: #f4a261;
+}
+
+.download {
+    color: #2a9d8f;
+}
+
+.delete {
+    color: #e76f51;
+}
+
+/* Modals */
+.field-change-state {
+    display: flex;
+    flex-direction: column;
+}
+
+.field-change-state label {
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+.field-change-state .warning {
+    color: #e76f51;
+    font-size: .8rem;
+    font-weight: 600;
+    margin-top: 5px;
 }

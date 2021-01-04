@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralServiceService } from './services/general-service.service';
 
 @Component({
@@ -11,17 +13,24 @@ export class AppComponent implements OnInit {
   public absolutePath:Array<string>;
   public dirs:Array<string>;
   public files:Array<string>;
+  public currentFilename:string;
+  public currentFieldChangeState: FormGroup;
 
   private routeSearch:any;
   private mainPath:string;
 
   constructor(
-    private _generalService: GeneralServiceService
+    private _generalService: GeneralServiceService,
+    private modalService: NgbModal
   ) {
     this.absolutePath = [];
     this.mainPath = "";
     this.dirs = [];
     this.files = [];
+    this.currentFilename = "";
+    this.currentFieldChangeState = new FormGroup({
+      fieldToChange: new FormControl('', Validators.required),
+    });
     this.onRefreshContent("MyStorage", false);
   }
 
@@ -82,7 +91,25 @@ export class AppComponent implements OnInit {
     }
   }
 
+  renameElement(): void {
+    console.log(this.currentFieldChangeState.value);
+  }
+
+  downloadFile(): void {
+    console.log("Descargando archivo..");
+  }
+
+  deleteElement(): void {
+
+  }
+
   ngOnInit(): void {
+  }
+
+  // Modals for actions of elements (dirs and files)
+  openRenameElement(content:any, filename:string):void {
+    this.currentFilename = filename;
+    this.modalService.open(content, { centered: true });
   }
 
   title = 'mydrive';
