@@ -35,4 +35,9 @@ export class GeneralServiceService {
     let params = JSON.stringify(element);
     return this._http.post(this.url + 'delete', params, { headers: this.headers });
   }
+
+  downloadFile(element:any): Observable<any> {
+    let params = JSON.stringify(element);
+    return this._http.post(this.url + 'file/download', params, { headers: this.headers });
+  }
 }

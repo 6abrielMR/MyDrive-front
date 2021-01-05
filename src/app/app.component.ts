@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralServiceService } from './services/general-service.service';
+import { Global } from './services/global';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,8 @@ export class AppComponent implements OnInit {
   public currentFieldChangeState: FormGroup;
   public isRename:boolean;
   public isDelete:boolean;
+  public mainDownloadPath:string;
+  public downloadPath:string;
 
   private routeSearch:any;
   private mainPath:string;
@@ -27,6 +30,8 @@ export class AppComponent implements OnInit {
   ) {
     this.absolutePath = [];
     this.mainPath = "";
+    this.mainDownloadPath = Global.download_path;
+    this.downloadPath = "";
     this.dirs = [];
     this.files = [];
     this.currentFilename = "";
@@ -43,10 +48,12 @@ export class AppComponent implements OnInit {
     let currentRelativePath = [];
     let i = 0;
     this.mainPath = "";
+    this.downloadPath = "";
     for (let route of this.absolutePath) {
       if (route != "MyStorage") {
         relativePath += route;
         this.mainPath += route != "/" ? route : "";
+        this.downloadPath += route != "/" ? route : "";
       }
       currentRelativePath.push(route);
       if (i == 1) relativePath = relativePath.substring(0, relativePath.length - 2);
@@ -55,6 +62,7 @@ export class AppComponent implements OnInit {
     }
     currentRelativePath.push("/");
     this.absolutePath = currentRelativePath;
+    console.log(this.downloadPath);
     this.onRefreshContent(relativePath, true);
   }
 
@@ -78,6 +86,7 @@ export class AppComponent implements OnInit {
       this.absolutePath.push(path);
       this.absolutePath.push("/");
       this.mainPath += path == "MyStorage" ? "" : "/" + path;
+      this.downloadPath += path == "MyStorage" ? "" : "-" + path;
       this.dirs = [];
       this.files = [];
       this.routeSearch = {
@@ -123,8 +132,20 @@ export class AppComponent implements OnInit {
     );
   }
 
-  downloadFile(): void {
-    console.log("Descargando archivo..");
+  downloadFile(filename:string): void {
+    let currentFileToDownload;
+    if (this.mainPath == "")
+    currentFileToDownload = this.mainPath + filename;
+    else
+    currentFileToDownload = this.mainPath.replace('/', '') + '/' + filename;
+    let fileToDownload = {
+      "fileToDownload": currentFileToDownload
+    };
+    this._generalService.downloadFile(fileToDownload).subscribe(
+      err => {
+        console.log(err);
+      } 
+    );
   }
 
   deleteElement(): void {

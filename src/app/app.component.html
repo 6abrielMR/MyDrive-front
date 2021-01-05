@@ -140,7 +140,7 @@
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
               <button ngbDropdownItem (click)="openRenameElement(renameE, file)"><i class="fas fa-edit edit"></i> Renombrar</button>
-              <button ngbDropdownItem (click)="downloadFile()"><i class="fas fa-download download"></i> Descargar</button>
+              <a href="{{ mainDownloadPath }}{{ downloadPath }}-{{ file }}" download><button ngbDropdownItem><i class="fas fa-download download"></i> Descargar</button></a>
               <button ngbDropdownItem (click)="openDeleteElement(deleteE, file)"><i class="fas fa-trash-alt delete"></i> Eliminar</button>
             </div>
           </div>          
