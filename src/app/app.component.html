@@ -15,6 +15,9 @@
       </button>
     </div>
     <div class="modal-body">
+      <span *ngIf="!isRename">
+        Hubo un error al cambiar el nombre de "{{ currentFilename }}".
+      </span>
       <p>Para cambiar el nombre "{{ currentFilename }}" solo digita el nuevo nombre:</p>
       <div class="field-change-state">
         <label for="fieldToChange">Nuevo Nombre</label>
@@ -22,11 +25,11 @@
         <span *ngIf="currentFieldChangeState.controls['fieldToChange'].invalid &&
                       (currentFieldChangeState.controls['fieldToChange'].dirty ||
                         currentFieldChangeState.controls['fieldToChange'].touched)"
-              class="warning">
+              class="danger">
                       Digita un nombre para cambiar el anterior.
         </span>
         <span *ngIf="currentFieldChangeState.controls['fieldToChange'].value == currentFilename"
-              class="warning">
+              class="danger">
           Debes escribir un nombre diferente al actual.
         </span>
       </div>

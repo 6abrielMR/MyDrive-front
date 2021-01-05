@@ -183,7 +183,7 @@
     font-weight: 700;
 }
 
-.field-change-state .warning {
+.field-change-state .danger {
     color: #e76f51;
     font-size: .8rem;
     font-weight: 600;

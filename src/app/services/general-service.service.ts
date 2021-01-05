@@ -10,8 +10,11 @@ export class GeneralServiceService {
 
   public url:string;
 
+  private headers:HttpHeaders;
+
   constructor(private _http: HttpClient) {
     this.url = Global.url;
+    this.headers = new HttpHeaders().set('Content-Type', 'application/json');
   }
 
   testService() {
@@ -20,8 +23,11 @@ export class GeneralServiceService {
 
   fetchElements(route:any): Observable<any> {
     let params = JSON.stringify(route);
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url, params, { headers: this.headers });
+  }
 
-    return this._http.post(this.url, params, { headers: headers });
+  renameElement(data:any): Observable<any> {
+    let params = JSON.stringify(data);
+    return this._http.post(this.url + 'rename', params, { headers: this.headers });
   }
 }

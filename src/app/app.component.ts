@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   public files:Array<string>;
   public currentFilename:string;
   public currentFieldChangeState: FormGroup;
+  public isRename:boolean;
 
   private routeSearch:any;
   private mainPath:string;
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit {
     this.dirs = [];
     this.files = [];
     this.currentFilename = "";
+    this.isRename = true;
     this.currentFieldChangeState = new FormGroup({
       fieldToChange: new FormControl('', Validators.required),
     });
@@ -92,7 +94,31 @@ export class AppComponent implements OnInit {
   }
 
   renameElement(): void {
-    console.log(this.currentFieldChangeState.value);
+    let currentAbsolutePath, newAbsolutePath;
+    if (this.mainPath == "") {
+      currentAbsolutePath = this.mainPath + this.currentFilename;
+      newAbsolutePath = this.mainPath + this.currentFieldChangeState.controls['fieldToChange'].value;
+    } else {
+      currentAbsolutePath = this.mainPath.replace('/', '') + '/' + this.currentFilename;
+      newAbsolutePath = this.mainPath.replace('/', '') + "/" + this.currentFieldChangeState.controls['fieldToChange'].value;
+    }
+    let data = {
+      "currentName": currentAbsolutePath,
+      "nameToChange": newAbsolutePath
+    };
+    this._generalService.renameElement(data).subscribe(
+      response => {
+        console.log(response);
+        if(response.state == "Success") {
+          this.onRefreshContent(this.mainPath.replace('/', ''), true);
+          this.modalService.dismissAll();
+        }
+        else this.isRename = false;
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   downloadFile(): void {
