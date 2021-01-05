@@ -25,6 +25,10 @@
               class="warning">
                       Digita un nombre para cambiar el anterior.
         </span>
+        <span *ngIf="currentFieldChangeState.controls['fieldToChange'].value == currentFilename"
+              class="warning">
+          Debes escribir un nombre diferente al actual.
+        </span>
       </div>
     </div>
     <div class="modal-footer">
