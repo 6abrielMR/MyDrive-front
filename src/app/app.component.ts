@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   public currentFilename:string;
   public currentFieldChangeState: FormGroup;
   public isRename:boolean;
+  public isDelete:boolean;
 
   private routeSearch:any;
   private mainPath:string;
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit {
     this.files = [];
     this.currentFilename = "";
     this.isRename = true;
+    this.isDelete = true;
     this.currentFieldChangeState = new FormGroup({
       fieldToChange: new FormControl('', Validators.required),
     });
@@ -126,16 +128,43 @@ export class AppComponent implements OnInit {
   }
 
   deleteElement(): void {
-
+    let currentAbsolutePath;
+    if (this.mainPath == "")
+      currentAbsolutePath = this.mainPath + this.currentFilename;
+    else
+      currentAbsolutePath = this.mainPath.replace('/', '') + '/' + this.currentFilename;
+    let elementToDelete = {
+      "elementName": currentAbsolutePath
+    };
+    this._generalService.deleteElement(elementToDelete).subscribe(
+      response => {
+        console.log(response);
+        if(response.state == "Success") {
+          this.onRefreshContent(this.mainPath.replace('/', ''), true);
+          this.modalService.dismissAll();
+        }
+        else this.isDelete = false;
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   ngOnInit(): void {
   }
 
   // Modals for actions of elements (dirs and files)
-  openRenameElement(content:any, filename:string):void {
+  openRenameElement(renameE:any, filename:string):void {
+    this.currentFieldChangeState.reset();
     this.currentFilename = filename;
-    this.modalService.open(content, { centered: true });
+    this.modalService.open(renameE, { centered: true });
+  }
+
+  openDeleteElement(deleteE:any, filename:string):void {
+    this.currentFieldChangeState.reset();
+    this.currentFilename = filename;
+    this.modalService.open(deleteE, { centered: true });
   }
 
   title = 'mydrive';

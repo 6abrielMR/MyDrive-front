@@ -30,4 +30,9 @@ export class GeneralServiceService {
     let params = JSON.stringify(data);
     return this._http.post(this.url + 'rename', params, { headers: this.headers });
   }
+
+  deleteElement(element:any): Observable<any> {
+    let params = JSON.stringify(element);
+    return this._http.post(this.url + 'delete', params, { headers: this.headers });
+  }
 }
