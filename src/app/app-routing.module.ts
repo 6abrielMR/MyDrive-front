@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { NotFoundComponent } from './core/shared/components/not-found/not-found.component';
+import { AppComponent } from './app.component';
+import { StorageHomeComponent } from './components/storage-home/storage-home.component';
+import { UploadFileComponent } from './components/upload-file/upload-file.component';
 
 const routes: Routes = [
-  { path: '', loadChildren: () => import('./public/public-routing.module').then(m => m.PublicRoutingModule) },
-  { path: '**', component: NotFoundComponent }
+  { path: '', component: StorageHomeComponent, pathMatch: 'full' },
+  { path: 'upload-file', component: UploadFileComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

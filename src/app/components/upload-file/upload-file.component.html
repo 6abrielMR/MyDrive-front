@@ -1,0 +1,38 @@
+<!-- Content view -->
+<nav class="navbar bg-blue-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">MyDrive</a>
+    </div>
+</nav>
+<div class="local-path">
+    <div class="container content-route"></div>
+</div>
+<div class="container d-flex flex-column align-items-center">
+    <h1>Subir archivos</h1>
+    <input type="file" #currentFiles multiple (change)="filesUploaded()">
+    <div *ngIf="isFiles" class="main-upload">
+        <div  class="files-list">
+            <div class="card main-content-file" *ngFor="let file of filesToUpload">
+                <div class="content-body">
+                    <div class="main-file">
+                        <div class="icon">
+                            <div class="rounded icon-file">
+                                <p><i class="far fa-file"></i></p>
+                            </div>
+                        </div>
+                        <div class="title">
+                            <p>{{ file.name }}</p>
+                            <span>{{ file.size }} kb</span>
+                        </div>
+                        <div class="close" (click)="deleteFile(file.name)">
+                            <p><i class="fas fa-times"></i></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-btn">
+            <button class="btn btn-success">Subir archivos</button>
+        </div>
+    </div>
+</div>
