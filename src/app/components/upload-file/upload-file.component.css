@@ -2,6 +2,10 @@
     min-height: 20px;
 }
 
+h1 {
+    margin-bottom: 30px;
+}
+
 .files-list {
     height: 50vmin;
     width: 500px;
@@ -92,4 +96,14 @@
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+}
+
+.custom-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-files {
+    position: absolute;
 }

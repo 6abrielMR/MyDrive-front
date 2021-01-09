@@ -8,9 +8,12 @@
     <div class="container content-route"></div>
 </div>
 <div class="container d-flex flex-column align-items-center">
+    <div *ngIf="isError" class="alert alert-warning" role="alert">
+        {{ errorMessage }}
+    </div>
     <h1>Subir archivos</h1>
     <input type="file" #currentFiles multiple (change)="filesUploaded()">
-    <div *ngIf="isFiles" class="main-upload">
+    <div *ngIf="isFiles && filesToUpload.length > 0" class="main-upload">
         <div  class="files-list">
             <div class="card main-content-file" *ngFor="let file of filesToUpload">
                 <div class="content-body">
@@ -32,7 +35,7 @@
             </div>
         </div>
         <div class="content-btn">
-            <button class="btn btn-success">Subir archivos</button>
+            <button class="btn btn-success" (click)="uploadFiles()">Subir archivos</button>
         </div>
     </div>
 </div>

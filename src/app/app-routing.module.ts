@@ -6,7 +6,7 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
 
 const routes: Routes = [
   { path: '', component: StorageHomeComponent, pathMatch: 'full' },
-  { path: 'upload-file', component: UploadFileComponent, pathMatch: 'full' }
+  { path: 'upload-file/:path', component: UploadFileComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

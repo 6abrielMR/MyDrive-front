@@ -40,4 +40,8 @@ export class GeneralServiceService {
     let params = JSON.stringify(element);
     return this._http.post(this.url + 'file/download', params, { headers: this.headers });
   }
+
+  uploadFiles(pathToUpload:string, data:any): Observable<any> {
+    return this._http.post(this.url + 'file/upload/' + pathToUpload, data);
+  }
 }
