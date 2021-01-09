@@ -78,12 +78,50 @@
   </form>
 </ng-template>
 
+<!-- Modal Create -->
+<ng-template #crearF let-modal>
+  <form [formGroup]="currentFieldChangeState" (ngSubmit)="createFolder()">
+    <div class="modal-header">
+      <h4 class="modal-title">Crear</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <span *ngIf="!isCreate">
+        Hubo un error al crear una carpeta.
+      </span>
+      <p>Digita el nombre de la carpeta a crear.</p>
+      <div class="field-change-state">
+        <label for="fieldToChange">Nombre de la carpeta:</label>
+        <input type="text" name="fieldToChange" formControlName="fieldToChange">
+        <span *ngIf="currentFieldChangeState.controls['fieldToChange'].invalid &&
+                      (currentFieldChangeState.controls['fieldToChange'].dirty ||
+                        currentFieldChangeState.controls['fieldToChange'].touched)"
+              class="danger">
+                      Digita el nombre del la carpeta a crear.
+        </span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancelar</button>
+      <button
+        type="submit"
+        class="btn btn-danger"
+        [disabled]="currentFieldChangeState.invalid">
+                    Crear
+      </button>
+    </div>
+  </form>
+</ng-template>
+
 <!-- Content view -->
 <nav class="navbar bg-blue-dark">
   <div class="container">
     <a class="navbar-brand" href="#">MyDrive</a>
     <div class="d-flex">
       <button class="btn btn-primary" [routerLink]="['upload-file', downloadPath]">Subir archivo</button>
+      <button class="btn btn-success create" (click)="openCreateDir(crearF)">Crear carpeta</button>
     </div>
   </div>
 </nav>

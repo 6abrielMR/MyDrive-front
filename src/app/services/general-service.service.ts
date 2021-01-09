@@ -44,4 +44,9 @@ export class GeneralServiceService {
   uploadFiles(pathToUpload:string, data:any): Observable<any> {
     return this._http.post(this.url + 'file/upload/' + pathToUpload, data);
   }
+
+  createDir(data:any): Observable<any> {
+    let params = JSON.stringify(data);
+    return this._http.post(this.url + 'dir/create', params, { headers: this.headers });
+  }
 }

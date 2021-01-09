@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralServiceService } from 'src/app/services/general-service.service';
 import { Global } from 'src/app/services/global';
@@ -20,13 +21,15 @@ export class StorageHomeComponent implements OnInit {
   public isDelete:boolean;
   public mainDownloadPath:string;
   public downloadPath:string;
+  public isCreate:boolean;
 
   private routeSearch:any;
   private mainPath:string;
 
   constructor(
     private _generalService: GeneralServiceService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private routerN:Router
   ) {
     this.absolutePath = [];
     this.mainPath = "";
@@ -37,6 +40,7 @@ export class StorageHomeComponent implements OnInit {
     this.currentFilename = "";
     this.isRename = true;
     this.isDelete = true;
+    this.isCreate = true;
     this.currentFieldChangeState = new FormGroup({
       fieldToChange: new FormControl('', Validators.required),
     });
@@ -172,6 +176,29 @@ export class StorageHomeComponent implements OnInit {
     );
   }
 
+  createFolder(): void {
+    let newDir;
+    if (this.mainPath == "")
+      newDir = this.mainPath + this.currentFieldChangeState.controls['fieldToChange'].value;
+    else
+      newDir = this.mainPath.replace('/', '') + '/' + this.currentFieldChangeState.controls['fieldToChange'].value;
+    let data = {
+      "folderName": newDir
+    };
+    this._generalService.createDir(data).subscribe(
+      response => {
+        if (response.state == "Success") {
+          this.onRefreshContent(this.mainPath.replace('/', ''), true);
+          this.modalService.dismissAll();
+        }
+        else this.isCreate = false;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
   ngOnInit(): void {
   }
 
@@ -186,6 +213,11 @@ export class StorageHomeComponent implements OnInit {
     this.currentFieldChangeState.reset();
     this.currentFilename = filename;
     this.modalService.open(deleteE, { centered: true });
+  }
+
+  openCreateDir(createDir:any):void {
+    this.currentFieldChangeState.reset();
+    this.modalService.open(createDir, { centered: true });
   }
 
   title = 'mydrive';
